@@ -1,5 +1,7 @@
 from datetime import datetime
 
+import pytz
+
 from src.data_interface import (
     DynamoDB,
     S3ObjectStorage,
@@ -18,11 +20,13 @@ def main():
         bucket=settings.BUCKET,
         path=f"heuristic-scores/{settings.RUN_ID}-mean-score.csv",
     )
-    if not score_data_df:
+    if score_data_df is None:
         return
 
     # Add time
-    date = datetime.now().strftime("%Y-%m-%dT%H:%M:%S")
+    date = datetime.now(tz=pytz.timezone("America/Sao_Paulo")).strftime(
+        "%Y-%m-%dT%H:%M:%S"
+    )
     score_data_df["date"] = [date]
 
     # Save on DynamoDB

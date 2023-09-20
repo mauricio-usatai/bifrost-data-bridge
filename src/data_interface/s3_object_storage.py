@@ -75,4 +75,4 @@ class S3ObjectStorage(DataInterface):
             return None
 
         stream = StringIO(byte_stream.read().decode("utf-8"))
-        return pd.read_csv(stream)
+        return pd.read_csv(stream, index_col=[0])
