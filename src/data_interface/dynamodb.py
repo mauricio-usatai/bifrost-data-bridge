@@ -50,7 +50,8 @@ class DynamoDB(DataInterface):
         for index in range(len(data)):
             # Build DynamoDB insert statement
             item = {
-                key: {"S": value} for key, value in data.iloc[index].to_dict().items()
+                key: {"S": str(value)}
+                for key, value in data.iloc[index].to_dict().items()
             }
             try:
                 self.client.put_item(
