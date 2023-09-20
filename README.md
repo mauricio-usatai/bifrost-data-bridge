@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/bifrost_logo.png" height=120>
+  <img src="docs/assets/bifrost_logo.png" height=100>
 </p>
 
 ![License](https://img.shields.io/badge/License-Apache%202.0-blue)
