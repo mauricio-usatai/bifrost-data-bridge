@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  bifrost-data-bridge:
+    container_name: bifrost-data-bridge
+    image: midas/bifrost-data-bridge:0.1.0
+    build: .
+    networks:
+      - midas
+    environment:
+      - DEPLOY=local
+      - BUCKET=dev-midas-news-scoring
+      - RUN_ID=test
+  minio:
+    container_name: minio
+    image: quay.io/minio/minio
+    command: server /data --console-address ":9001"
+    networks:
+      - midas
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+      - MINIO_ROOT_USER=miniodev
+      - MINIO_ROOT_PASSWORD=miniodev
+  dynamodb:
+    container_name: dynamodb
+    image: amazon/dynamodb-local
+    command: -jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal/data/
+    volumes:
+     - /Users/musatai/code/midas/dynamodb-storage:/home/dynamodblocal/data
+    ports:
+     - 8000:8000
+    networks:
+      - midas
+
+networks:
+  midas:
+    name: midas
